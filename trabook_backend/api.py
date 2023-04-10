@@ -8,8 +8,23 @@ from sqlalchemy.sql.functions import coalesce
 from trabook_backend.orm.database import SessionLocal
 from trabook_backend.orm import schemas
 from trabook_backend.orm import models
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_db():
