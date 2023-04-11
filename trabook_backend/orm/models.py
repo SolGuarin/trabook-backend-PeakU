@@ -18,7 +18,7 @@ class Trip(Base):
 
     @hybrid_property
     def discount(self):
-        return 100 * ((self.price - self.promo_price)/self.price) if self.promo_price is not None and self.price != 0 else 0
+        return round(100 * ((self.price - self.promo_price)/self.price) if self.promo_price is not None and self.price != 0 else 0, 2)
 
     @discount.expression
     def discount(self):

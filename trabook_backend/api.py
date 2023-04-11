@@ -45,10 +45,10 @@ async def create_trip(trip: schemas.TripCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/trip/", response_model=List[schemas.Trip])
-async def get_trips(db: Session = Depends(get_db), sort_by: str = None):
+async def get_trips(db: Session = Depends(get_db), limit: int = None,  sort_by: str = None):
     query = db.query(models.Trip)
     if sort_by:
-        query = query.order_by(desc(getattr(models.Trip, sort_by)))
+        query = query.order_by(desc(getattr(models.Trip, sort_by))).limit(limit)
 
     return query.all()
 
@@ -77,5 +77,5 @@ async def create_blog(blog: schemas.BlogCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/blog/", response_model=List[schemas.Blog])
-async def get_blogs(db: Session = Depends(get_db)):
-    return db.query(models.Blog).all()
+async def get_blogs(db: Session = Depends(get_db), limit: int = None):
+    return db.query(models.Blog).limit(limit).all()
